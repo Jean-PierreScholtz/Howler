@@ -124,7 +124,6 @@
         }
 
         .form-footer{
-            border: 2px solid red;
             display: flex;
             position: relative;
             align-items: center;
@@ -132,10 +131,50 @@
             gap: 5%;
         }
         .cancel-form {
-            background-color: red;
+            background-color: #f5f8f9;
+            border: none;
         }
         .submit-form {
-            background-color: rgb(21, 219, 21);
+            background-color: #49c8a8;
+            border: none;
+        }
+        .membership-container {
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .membership-option {
+            flex-basis: 30%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .membership-option input[type="radio"] {
+            margin-right: 5px;
+        }
+        .svg-card {
+            width: 20px; 
+            height: 20px;
+            background-image: url('../assets/card.svg');
+            background-size: contain; 
+            background-repeat: no-repeat; 
+        }
+
+        .genderOptionsContainer {
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+        }
+        .svg-mars {
+            width: 20px; 
+            height: 20px;
+            background-size: contain; 
+            background-repeat: no-repeat;
         }
     </style>
 </head>
@@ -157,19 +196,28 @@
             <div class="form-container">
                 <form id="formFields">
                 </form>
-                <div id="membershipType"></div>
             </div>
-            <div id="formFooter" class="form-footer">
+            <div class="form-container">
+                <div class="membership-container" id="membershipType">
+                    <h6>Membership</h1>
+                </div>
+            </div>
+            <div class="form-container">
+                <div id="formFooter" class="form-footer"></div>
             </div>
         </div>
         <script>
             const formFields = [
                 { label: 'Name', type: 'text', id: 'name', required: true },
-                { label: 'Gender', type: 'text', id: 'gender', required: true },
+                { label: 'Gender', type: 'radio', id: 'gender', required: true, options: [
+                { value: 'male', label: 'Male' },
+                { value: 'female', label: 'Female' }
+            ] },                
                 { label: 'Date of Birth', type: 'date', id: 'dob', required: true },
                 { label: 'Email', type: 'email', id: 'email', required: true },
                 { label: 'Mobile', type: 'number', id: 'mobile', required: true },
-                { label: 'Customer Id', type: 'number', id: 'customerId', required: true }
+                { label: 'Customer Id', type: 'number', id: 'customerId', required: true },
+                { label: 'Membership', type: 'number', id: 'membership', required: true },
             ];
 
             const formFooter = [
@@ -178,9 +226,14 @@
             ];
 
             const membershipType = [
-                { label: 'Free', type: 'radio', id: 'free', required: true },
-                { label: 'Paid', type: 'radio', id: 'paid', required: true }
+                { label: 'Classic', type: 'radio', id: 'classic', required: true, },
+                { label: 'Silver', type: 'radio', id: 'silver', required: true },
+                { label: 'Gold', type: 'radio', id: 'gold', required: true }
             ]
+
+           
+            const svgIconCard = '../assets/card.svg';
+            const iconLabel = 'an image of a card';
     
             const formContainer = document.getElementById('formFields');
 
@@ -206,6 +259,17 @@
         }
         inputDiv.appendChild(input);
 
+        if(field.id === 'gender'){
+            input.style.display = 'none';
+            createGenderIconContainer();
+        }
+
+        if(field.id === 'membership'){
+            input.style.display = 'none';
+            label.style.display = 'none';
+            createNewContainer();
+        }
+
         formFieldDiv.appendChild(labelDiv);
         formFieldDiv.appendChild(inputDiv);
 
@@ -228,6 +292,62 @@
         }
         });
 
+        function createGenderIconContainer() {
+        const genderIcons = ['../assets/mars-symbol.svg', '../assets/venus-symbol.svg'];
+
+        const genderOptionsContainer = document.createElement('div');
+        genderOptionsContainer.classList.add('genderOptionsContainer');  
+
+        formFields.find(field => field.id === 'gender').options.forEach(option => {
+        const iconImg = document.createElement('img');
+        iconImg.setAttribute('src', genderIcons[option.value === 'male' ? 0 : 1]);
+        iconImg.setAttribute('alt', 'Gender Icon');
+        iconImg.classList.add('svg-mars');
+
+        const genderLabel = document.createElement('label');
+        genderLabel.classList.add('membership-option');
+        genderLabel.textContent = option.label;
+
+        formContainer.appendChild(genderOptionsContainer);
+        genderOptionsContainer.appendChild(iconImg);
+        genderOptionsContainer.appendChild(genderLabel);
+    });
+}
+
+        function createNewContainer() {
+        const membershipTypes = document.getElementById('membershipType');
+
+        membershipType.forEach(membership => {
+        const membershipOptionDiv = document.createElement('div');
+        membershipOptionDiv.classList.add('membership-container');
+
+        const iconSvg = document.createElement('img');
+        iconSvg.setAttribute('src', svgIconCard);
+        iconSvg.setAttribute('alt', iconLabel);
+
+        const membershipLabelDiv = document.createElement('label');
+        membershipLabelDiv.setAttribute('name', membership.name); 
+        membershipLabelDiv.classList.add('membership-option');
+
+        const input = document.createElement('input');
+        input.setAttribute('type', membership.type);
+        input.setAttribute('id', membership.id);
+        input.setAttribute('name', 'membership');
+        input.setAttribute('value', membership.label);
+        input.setAttribute('required', 'required');
+        input.style.display = 'none';
+
+        const label = document.createElement('label');
+        label.setAttribute('for', membership.id);
+        label.textContent = membership.label;
+
+        membershipOptionDiv.appendChild(iconSvg);
+        membershipOptionDiv.appendChild(label);
+        membershipOptionDiv.appendChild(input);
+
+        membershipTypes.appendChild(membershipOptionDiv);
+    });
+};
         </script>
 </body>
 </html>
