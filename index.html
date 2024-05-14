@@ -76,7 +76,7 @@
         .form-field {
             display : flex;
             align-items: center;
-            margin-bottom: 10xp;
+            margin-bottom: 10px;
         }
         .label-container {
             width: 100px;
@@ -176,6 +176,10 @@
             background-size: contain; 
             background-repeat: no-repeat;
         }
+
+        .rotate {
+          transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
@@ -186,7 +190,7 @@
             </div>
             <div class="arrow-container">
                 <div>
-                    <button class="arrow"><span><img src="assets/arrow.svg"></span></button>
+                    <button id="arrow" class="arrow"><span><img src="assets/arrow.svg"></span></button>
                 </div>
             </div>
         </div>
@@ -234,6 +238,8 @@
            
             const svgIconCard = '../assets/card.svg';
             const iconLabel = 'an image of a card';
+            const arrowButton = document.getElementById('arrow');
+            const cancelFormButton = document.getElementById('cancel');
     
             const formContainer = document.getElementById('formFields');
 
@@ -272,7 +278,6 @@
 
         formFieldDiv.appendChild(labelDiv);
         formFieldDiv.appendChild(inputDiv);
-
         formContainer.appendChild(formFieldDiv);
     });
 
@@ -347,7 +352,20 @@
 
         membershipTypes.appendChild(membershipOptionDiv);
     });
-};
-        </script>
+    }
+
+    arrowButton.addEventListener('click', function() {
+    // Get the img element within the button
+    const img = arrowButton.querySelector('img');
+    // Add the 'rotate' class to the img element
+    img.classList.toggle('rotate');
+});
+
+    cancelFormButton.addEventListener('click', function() {
+    
+});
+
+
+</script>
 </body>
 </html>
