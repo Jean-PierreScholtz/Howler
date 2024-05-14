@@ -12,7 +12,6 @@
         }
 
         .main-container {
-            border: 2px solid red;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,21 +23,24 @@
             border: 1px solid #ccc;
             padding: 20px;
             margin: 0 10px;
+            height: 547px;
+            border-radius: 37px 0px 0px 37px;
         }
         .container:first-child {
             background-color: #ffd300;
         }
 
         .container:nth-child(2) {
+            width: 600px;
             background-color: #fff;
             display: flex;
             position: relative;
             justify-content: center;
             flex-wrap: wrap;
+            border: none;
         }
 
         .avatar-container{
-            border: 2px solid red;
             display: flex;
             position: relative;
             justify-content: center;
@@ -46,10 +48,10 @@
         }
 
         .arrow-container{
-            border: 2px solid red;
             display: flex;
             position: relative;
             justify-content: center;
+            transform: translateX(-1%) translateY(346%);
         }
 
         
@@ -64,14 +66,12 @@
             outline: none;
         }
         .form-container {
-            width: 400px;
+            width: 560px;
             padding: 20px;
             display: flex;
             position: relative;
             justify-content: center;
-            border: 1px solid red;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .form-field {
             display : flex;
@@ -80,7 +80,7 @@
         }
         .label-container {
             width: 100px;
-            margin-right: 10px;
+            margin-right: 176px;
         }
         .input-container {
             flex: 1;
@@ -89,14 +89,6 @@
         .form-container form {
             display: grid;
             grid-gap: 10px;
-        }
-
-        .form-container label {
-            font-weight: bold;
-            display: flex;
-            align-items: flex-end;
-            position: relative;
-            justify-content: normal;
         }
 
         .form-container input[type="text"],
@@ -129,6 +121,7 @@
             align-items: center;
             justify-content: center;
             gap: 5%;
+            transform: scale(1.5);
         }
         .cancel-form {
             background-color: #f5f8f9;
@@ -142,13 +135,13 @@
             display: flex;
             position: relative;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
+            gap: 28px;
         }
 
         .membership-option {
             flex-basis: 30%;
             padding: 10px;
-            border: 1px solid #ccc;
             border-radius: 5px;
             text-align: center;
         }
@@ -159,16 +152,38 @@
         .svg-card {
             width: 20px; 
             height: 20px;
-            background-image: url('../assets/card.svg');
             background-size: contain; 
             background-repeat: no-repeat; 
         }
+      
+
+        .circle {
+            width: 44px;
+            height: 42px;
+            background-color: #373d40b2;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: -9px;
+            display: none;
+            z-index: 5;
+            opacity: 0.5;
+        }
+            .active {
+                display: block;
+                z-index: 5;
+            }
+            .inactive {
+                display: block;
+            }
 
         .genderOptionsContainer {
             display: flex;
             position: relative;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-end;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            align-content: space-around;
         }
         .svg-mars {
             width: 20px; 
@@ -211,124 +226,158 @@
             </div>
         </div>
         <script>
-            const formFields = [
-                { label: 'Name', type: 'text', id: 'name', required: true },
-                { label: 'Gender', type: 'radio', id: 'gender', required: true, options: [
-                { value: 'male', label: 'Male' },
-                { value: 'female', label: 'Female' }
-            ] },                
-                { label: 'Date of Birth', type: 'date', id: 'dob', required: true },
-                { label: 'Email', type: 'email', id: 'email', required: true },
-                { label: 'Mobile', type: 'number', id: 'mobile', required: true },
-                { label: 'Customer Id', type: 'number', id: 'customerId', required: true },
-                { label: 'Membership', type: 'number', id: 'membership', required: true },
-            ];
+    const formFields = [
+    { label: 'Name', type: 'text', id: 'name', placeholder:"Name", required: true },
+    { label: 'Gender', type: 'radio', id: 'gender', required: true, options: [
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' }
+    ] },                
+    { label: 'Date of Birth', type: 'text', id: 'dob', placeholer:"Birth", required: true },
+    { label: 'Email', type: 'text', id: 'email', placeholer:"Email@email.com", required: true },
+    { label: 'Mobile', type: 'text', id: 'mobile', placeholer:"888-777-666", required: true },
+    { label: 'Customer Id', type: 'text', id: 'customerId', placeholer:"83493-EFG-0001", required: true },
+    { label: 'Membership', type: 'text', id: 'membership', required: true },
+];
 
-            const formFooter = [
-                { label: 'Cancel', type: 'button', id: 'cancel', required: false },
-                { label: 'Save', type:'submit', id:'submit', required: false }
-            ];
+const formFooter = [
+    { label: 'Cancel', type: 'button', id: 'cancel', required: false },
+    { label: 'Save', type:'submit', id:'submit', required: false }
+];
 
-            const membershipType = [
-                { label: 'Classic', type: 'radio', id: 'classic', required: true, },
-                { label: 'Silver', type: 'radio', id: 'silver', required: true },
-                { label: 'Gold', type: 'radio', id: 'gold', required: true }
-            ]
+const membershipType = [
+    { label: 'Classic', type: 'radio', id: 'classic', required: true, },
+    { label: 'Silver', type: 'radio', id: 'silver', required: true },
+    { label: 'Gold', type: 'radio', id: 'gold', required: true }
+]
 
-           
-            const svgIconCard = '../assets/card.svg';
-            const iconLabel = 'an image of a card';
-            const arrowButton = document.getElementById('arrow');
-            const cancelFormButton = document.getElementById('cancel');
-    
-            const formContainer = document.getElementById('formFields');
+const svgIconCard = '../assets/card.svg';
+const svgWhite = '../assets/card--white.svg';
+const activeColor = '#373d40';
+const inactiveColor = '#f5f8f9';
+const iconLabel = 'an image of a card';
+const arrowButton = document.getElementById('arrow');
+const cancelFormButton = document.getElementById('cancel');
+const formContainer = document.getElementById('formFields');
+let circle; 
 
-        formFields.forEach(field => {
-        const formFieldDiv = document.createElement('div');
-        formFieldDiv.classList.add('form-field');
+formFields.forEach(field => {
+    const formFieldDiv = document.createElement('div');
+    formFieldDiv.classList.add('form-field');
 
-        const labelDiv = document.createElement('div');
-        labelDiv.classList.add('label-container');
-        const label = document.createElement('label');
-        label.setAttribute('for', field.id);
-        label.textContent = field.label;
-        labelDiv.appendChild(label);
+    const labelDiv = document.createElement('div');
+    labelDiv.classList.add('label-container');
+    const label = document.createElement('label');
+    label.setAttribute('for', field.id);
+    label.textContent = field.label;
+    labelDiv.appendChild(label);
 
-        const inputDiv = document.createElement('div');
-        inputDiv.classList.add('input-container');
-        const input = document.createElement('input');
-        input.setAttribute('type', field.type);
-        input.setAttribute('id', field.id);
-        input.setAttribute('name', field.id);
-        if (field.required) {
-            input.setAttribute('required', 'required');
-        }
-        inputDiv.appendChild(input);
+    const inputDiv = document.createElement('div');
+    inputDiv.classList.add('input-container');
+    const input = document.createElement('input');
+    input.setAttribute('type', field.type);
+    input.setAttribute('id', field.id);
+    input.setAttribute('name', field.name);
+    input.setAttribute('placeholder',field.placeholder);
+    if (field.required) {
+        input.setAttribute('required', 'required');
+    }
+    inputDiv.appendChild(input);
 
-        if(field.id === 'gender'){
-            input.style.display = 'none';
-            createGenderIconContainer();
-        }
+    if(field.id === 'gender'){
+        input.style.display = 'none';
+        createGenderIconContainer();
+    }
 
-        if(field.id === 'membership'){
-            input.style.display = 'none';
-            label.style.display = 'none';
-            createNewContainer();
-        }
+    if(field.id === 'membership'){
+        input.style.display = 'none';
+        label.style.display = 'none';
+        createNewContainer();
+    }
 
-        formFieldDiv.appendChild(labelDiv);
-        formFieldDiv.appendChild(inputDiv);
-        formContainer.appendChild(formFieldDiv);
-    });
+    formFieldDiv.appendChild(labelDiv);
+    formFieldDiv.appendChild(inputDiv);
+    formContainer.appendChild(formFieldDiv);
+});
 
-        const formFooterButtons = document.getElementById('formFooter');
+const formFooterButtons = document.getElementById('formFooter');
 
-        formFooter.forEach(button => {
-        const formFooterButton = document.createElement('button');
-        formFooterButton.setAttribute('type', button.type);
-        formFooterButton.setAttribute('id', button.id);
-        formFooterButton.textContent = button.label;
-        formFooterButtons.appendChild(formFooterButton);
+formFooter.forEach(button => {
+    const formFooterButton = document.createElement('button');
+    formFooterButton.setAttribute('type', button.type);
+    formFooterButton.setAttribute('id', button.id);
+    formFooterButton.textContent = button.label;
+    formFooterButtons.appendChild(formFooterButton);
 
-        if(button.id === 'cancel'){
-            formFooterButton.classList.add('cancel-form');
-        } else if (button.id === 'submit') {
-            formFooterButton.classList.add('submit-form');
-        }
-        });
+    if(button.id === 'cancel'){
+        formFooterButton.classList.add('cancel-form');
+    } else if (button.id === 'submit') {
+        formFooterButton.classList.add('submit-form');
+    }
+});
 
-        function createGenderIconContainer() {
-        const genderIcons = ['../assets/mars-symbol.svg', '../assets/venus-symbol.svg'];
+function createGenderIconContainer() {
+    const genderIcons = ['../assets/mars-symbol.svg', '../assets/venus-symbol.svg'];
 
-        const genderOptionsContainer = document.createElement('div');
-        genderOptionsContainer.classList.add('genderOptionsContainer');  
+    const genderOptionsContainer = document.createElement('div');
+    genderOptionsContainer.classList.add('genderOptionsContainer');  
 
-        formFields.find(field => field.id === 'gender').options.forEach(option => {
+    formFields.find(field => field.id === 'gender').options.forEach(option => {
+        const genderIconContainer = document.createElement('div');
+        genderIconContainer.classList.add('gender-icon-container');
+
         const iconImg = document.createElement('img');
         iconImg.setAttribute('src', genderIcons[option.value === 'male' ? 0 : 1]);
         iconImg.setAttribute('alt', 'Gender Icon');
         iconImg.classList.add('svg-mars');
+        if (option.value === 'male') {
+            iconImg.classList.add('active');
+        }
+
+        const circle = document.createElement('div');
+        circle.classList.add('circle');
+        if (option.value === 'male') {
+            circle.classList.add('active');
+            circle.style.backgroundColor = inactiveColor
+        }
+        genderIconContainer.appendChild(circle);
+
+        genderIconContainer.appendChild(iconImg);
 
         const genderLabel = document.createElement('label');
         genderLabel.classList.add('membership-option');
         genderLabel.textContent = option.label;
 
-        formContainer.appendChild(genderOptionsContainer);
-        genderOptionsContainer.appendChild(iconImg);
-        genderOptionsContainer.appendChild(genderLabel);
+        genderIconContainer.appendChild(genderLabel);
+
+        genderOptionsContainer.appendChild(genderIconContainer);
     });
+
+    formContainer.appendChild(genderOptionsContainer);
 }
 
-        function createNewContainer() {
-        const membershipTypes = document.getElementById('membershipType');
+function createNewContainer() {
+    const membershipTypes = document.getElementById('membershipType');
 
-        membershipType.forEach(membership => {
+    membershipType.forEach(membership => {
         const membershipOptionDiv = document.createElement('div');
         membershipOptionDiv.classList.add('membership-container');
+
+        circle = document.createElement('div');
+        circle.classList.add('circle');
+        membershipOptionDiv.appendChild(circle);
 
         const iconSvg = document.createElement('img');
         iconSvg.setAttribute('src', svgIconCard);
         iconSvg.setAttribute('alt', iconLabel);
+
+        if (membership.id === 'classic') {
+            iconSvg.setAttribute('src', svgWhite);
+            iconSvg.classList.add('active');
+            circle.classList.add('active');
+        } else if (membership.id !== 'classic'){
+            circle.classList.add('active');
+            circle.style.backgroundColor = inactiveColor;
+        }
 
         const membershipLabelDiv = document.createElement('label');
         membershipLabelDiv.setAttribute('name', membership.name); 
@@ -352,17 +401,15 @@
 
         membershipTypes.appendChild(membershipOptionDiv);
     });
-    }
+}
 
-    arrowButton.addEventListener('click', function() {
-    // Get the img element within the button
+arrowButton.addEventListener('click', function() {
     const img = arrowButton.querySelector('img');
-    // Add the 'rotate' class to the img element
     img.classList.toggle('rotate');
 });
 
-    cancelFormButton.addEventListener('click', function() {
-    
+cancelFormButton.addEventListener('click', function() {
+    // Your cancel form function
 });
 
 
