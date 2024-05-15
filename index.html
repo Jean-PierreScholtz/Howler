@@ -11,6 +11,10 @@
             padding: 0;
         }
 
+        .hidden-container {
+            display: none;
+        }
+
         .main-container {
             display: flex;
             justify-content: center;
@@ -20,7 +24,6 @@
 
         .container {
             width: 400px;
-            border: 1px solid #ccc;
             padding: 20px;
             margin: 0 10px;
             height: 547px;
@@ -85,7 +88,22 @@
         .input-container {
             flex: 1;
         }
-
+        .info-container {
+            background-color: #ff9200;
+            width: 485px;
+            height: 586px;
+            translate: -20% -3.4%;
+            border-radius: 0px 37px 37px 0px;
+        }
+        .info-heading {
+            color: #373d40;
+            translate: 25% 36%;
+        }
+        .info-details {
+            width: 436px;
+            margin: 5%;
+            translate: 1% 33%;
+        }
         .form-container form {
             display: grid;
             grid-gap: 10px;
@@ -212,20 +230,26 @@
 
         
         <div class="container">
-            <div class="form-container">
-                <form id="formFields">
-                </form>
-            </div>
-            <div class="form-container">
-                <div class="membership-container" id="membershipType">
-                    <h6>Membership</h1>
+            <div id="groupedFormContainers">
+                <div class="form-container">
+                    <form id="formFields">
+                    </form>
+                </div>
+                <div class="form-container">
+                    <div class="membership-container" id="membershipType">
+                        <h6>Membership</h1>
+                    </div>
+                </div>
+                <div class="form-container">
+                    <div id="formFooter" class="form-footer"></div>
                 </div>
             </div>
-            <div class="form-container">
-                <div id="formFooter" class="form-footer"></div>
             </div>
-        </div>
+            
         <script>
+
+
+// Data Sources
     const formFields = [
     { label: 'Name', type: 'text', id: 'name', placeholder:"Name", required: true },
     { label: 'Gender', type: 'radio', id: 'gender', required: true, options: [
@@ -250,6 +274,11 @@ const membershipType = [
     { label: 'Gold', type: 'radio', id: 'gold', required: true }
 ]
 
+const infoContextText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+
+// Global Variables
+let formDisplay = true;
 const svgIconCard = '../assets/card.svg';
 const svgWhite = '../assets/card--white.svg';
 const activeColor = '#373d40';
@@ -260,6 +289,43 @@ const cancelFormButton = document.getElementById('cancel');
 const formContainer = document.getElementById('formFields');
 let circle; 
 
+
+function toggleForm(formDisplay) {
+    let nthContainer = document.querySelector('.main-container > .container:nth-child(2)');
+    const formContainerDisplay = document.getElementById('groupedFormContainers');
+    const infoContainer = document.querySelector('.info-container');
+
+    if (!formDisplay) {
+        formContainerDisplay.classList.add('hidden-container');
+        addInfoContainer(nthContainer);
+    } else {
+        formContainerDisplay.classList.remove('hidden-container');
+        if (infoContainer) {
+            infoContainer.remove();
+        }
+    }
+}
+function addInfoContainer (nthContainer){
+    console.log(nthContainer);
+
+    const infoContainer = document.createElement('div');
+    infoContainer.classList.add('info-container');
+
+    const heading = document.createElement('h1');
+    heading.textContent = 'My World Today';
+    heading.classList.add('info-heading');
+    infoContainer.appendChild(heading);
+
+    const infoDetails = document.createElement('div');
+    infoDetails.classList.add('info-details');
+    infoContainer.appendChild(infoDetails);
+
+    const infoContext = document.createElement('p');
+    infoContext.textContent = infoContextText;
+    infoDetails.appendChild(infoContext);
+
+    nthContainer.appendChild(infoContainer);
+}
 formFields.forEach(field => {
     const formFieldDiv = document.createElement('div');
     formFieldDiv.classList.add('form-field');
@@ -403,9 +469,13 @@ function createNewContainer() {
     });
 }
 
+let removedFormContainer = document.getElementById('groupedFormContainers');
+
 arrowButton.addEventListener('click', function() {
     const img = arrowButton.querySelector('img');
     img.classList.toggle('rotate');
+    formDisplay = !formDisplay;
+    toggleForm(formDisplay);
 });
 
 cancelFormButton.addEventListener('click', function() {
